@@ -1,0 +1,6 @@
+target
+explore
+.DS_Store
+*iml
+.idea
+src/main/resources/*tif
