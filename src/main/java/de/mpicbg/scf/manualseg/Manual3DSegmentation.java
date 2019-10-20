@@ -1,7 +1,7 @@
 /**
  * Semi-manual segmentation (3D)
  *
- * Author: Noreen Walker, Scientific Computing Faacility, MPI-CBG
+ * Author: Noreen Walker, Scientific Computing Facility, MPI-CBG
  * Date: 2019-10
  */
 
@@ -16,7 +16,6 @@ import ij.gui.Overlay;
 import ij.gui.Roi;
 import ij.measure.ResultsTable;
 import ij.plugin.frame.RoiManager;
-import ij.process.*;
 import inra.ijpb.plugins.AnalyzeRegions;
 import inra.ijpb.plugins.AnalyzeRegions3D;
 import org.scijava.command.Command;
@@ -24,7 +23,6 @@ import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
 import java.awt.Color;
-import java.io.File;
 
 // notes:
 // * interpolation of rois only works for single object (at a time), so splitting of binary mask into connected
@@ -34,7 +32,7 @@ import java.io.File;
  * Plugin to do semi-manual segmentation in 3D (and 2D) by drawing and interpolating ROIs.
  * Plugin creates a mask and optionally computes statistics (the latter requires MorpholibJ).
  */
-@Plugin(type = Command.class, menuPath = "Plugins>Semi-manual Segmentation (3D)")
+@Plugin(type = Command.class, menuPath = "Plugins>SegTools>Semi-manual Segmentation (3D)")
 public class Manual3DSegmentation implements Command {
 
     @Parameter(label = "input image")
@@ -45,6 +43,7 @@ public class Manual3DSegmentation implements Command {
 
         if (imp.getNChannels()>1 || imp.getNFrames()>1) {
             IJ.error("Image must have a single channel and single time-point.");
+            return;
         }
 
         // set up roi manager
@@ -85,7 +84,7 @@ public class Manual3DSegmentation implements Command {
         // process the ROIs from the roi manager
 
         // create binary mask
-        ImagePlus mask = createBinaryMask(rm);
+        ImagePlus mask = Conversions.BinaryMaskFromRois(rm, imp);
         mask.show();
 
         // overlay on original image
@@ -117,36 +116,6 @@ public class Manual3DSegmentation implements Command {
         rm.deselect();
 
         IJ.setTool("rectangle");
-    }
-
-    /**
-     * Creates an binary image mask of all roi's stored in roi manager. The created mask is the same size (x,y,z) as the
-     * input image (imp). works in 2D & 3D.
-     * @param rm
-     * @return mask. 8 bit binary mask with foreground (=roi regions) value 255
-     */
-    private ImagePlus createBinaryMask(RoiManager rm) {
-        ImagePlus mask = IJ.createImage("binary mask", "8-bit black", imp.getWidth(), imp.getHeight(), imp.getNSlices());
-        mask.setCalibration(imp.getCalibration());
-
-        int numrois = rm.getCount();
-
-        for (int idx = 0; idx < numrois; idx++) {
-            Roi roi = rm.getRoi(idx);
-            int slice=roi.getZPosition();
-            if (imp.getNSlices()>1 && slice==0) {
-                IJ.log("Warning: Roi "+idx+" is not associated to a specific slice. Skipping");
-                continue;
-            }
-
-            mask.setSlice(slice);
-            ImageProcessor maskip = mask.getProcessor();
-            maskip.setValue(255);
-            maskip.fill(roi);
-        }
-
-        mask.setSlice(1);
-        return mask;
     }
 
 

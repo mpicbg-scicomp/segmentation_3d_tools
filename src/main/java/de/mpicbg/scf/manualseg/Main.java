@@ -26,7 +26,7 @@ public class Main {
         imp.show();
 
         // invoke the plugin (IJ2 style)
-        ij.command().run(Manual3DSegmentation.class,true);
+        ij.command().run(RoisToMask3D.class,true);
     }
 
 
