@@ -3,7 +3,6 @@ package de.mpicbg.scf.manualseg;
 import ij.IJ;
 import ij.ImagePlus;
 import ij.gui.GenericDialog;
-import ij.measure.Calibration;
 import ij.plugin.frame.RoiManager;
 import org.scijava.command.Command;
 import org.scijava.plugin.Plugin;
@@ -13,8 +12,8 @@ import java.io.File;
 /**
  * Small plugin to convert a list of Rois in the Roi manager to a 3D binary mask.
  */
-@Plugin(type = Command.class, menuPath = "Plugins>SegTools>ROIs to 3D Mask")
-public class RoisToMask3D implements Command {
+@Plugin(type = Command.class, menuPath = "Plugins>SegTools>ROIManager ROIs to Mask (3D)")
+public class RoisToMask3DPlugin implements Command {
 
     // @Parameter did not work since I want the user to actively see/verify the dimensions
 

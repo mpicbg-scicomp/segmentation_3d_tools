@@ -33,7 +33,7 @@ import java.awt.Color;
  * Plugin creates a mask and optionally computes statistics (the latter requires MorpholibJ).
  */
 @Plugin(type = Command.class, menuPath = "Plugins>SegTools>Semi-manual Segmentation (3D)")
-public class Manual3DSegmentation implements Command {
+public class Manual3DSegmentationPlugin implements Command {
 
     @Parameter(label = "input image")
     ImagePlus imp;

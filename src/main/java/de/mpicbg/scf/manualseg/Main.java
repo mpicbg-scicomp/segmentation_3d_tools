@@ -4,8 +4,6 @@ import ij.IJ;
 import ij.ImagePlus;
 import net.imagej.ImageJ;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Main {
     public static void main(final String... args) throws Exception {
@@ -20,13 +18,13 @@ public class Main {
 
         // load and show image
 
-        File inputFile=new File("src/main/resources/mri-stack.tif");
+        File inputFile=new File("src/main/resources/3dmaskdummy.tif");
 
         ImagePlus imp= IJ.openImage(inputFile.getPath());
         imp.show();
 
         // invoke the plugin (IJ2 style)
-        ij.command().run(RoisToMask3D.class,true);
+        ij.command().run(Mask3DToRoisPlugin.class,true);
     }
 
 
