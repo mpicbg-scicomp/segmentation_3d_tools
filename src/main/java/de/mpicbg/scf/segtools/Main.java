@@ -1,9 +1,11 @@
-package de.mpicbg.scf.manualseg;
+package de.mpicbg.scf.segtools;
 
 import ij.IJ;
 import ij.ImagePlus;
 import net.imagej.ImageJ;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
     public static void main(final String... args) throws Exception {
@@ -18,13 +20,24 @@ public class Main {
 
         // load and show image
 
-        File inputFile=new File("src/main/resources/3dmaskdummy.tif");
+        File inputFile=new File("src/main/resources/mri-stack.tif");
 
         ImagePlus imp= IJ.openImage(inputFile.getPath());
         imp.show();
 
+        ImagePlus labels=IJ.openImage("src/main/resources/3dlabelled.tif");
+        labels.show();
+
         // invoke the plugin (IJ2 style)
-        ij.command().run(Mask3DToRoisPlugin.class,true);
+        //ij.command().run(Mask3DToRoisPlugin.class,true);
+
+        // invoke the plugin (IJ2 style)
+        // automatize input for all @Parameters
+        Map<String, Object> map = new HashMap<>();
+        map.put("segImp", labels);
+        map.put("imp", imp);
+
+        ij.command().run(Create3DOverlayPlugin.class, true, map);
     }
 
 

@@ -1,10 +1,15 @@
-package de.mpicbg.scf.manualseg;
+package de.mpicbg.scf.segtools;
 
 import ij.ImagePlus;
 import ij.plugin.frame.RoiManager;
 import org.scijava.command.Command;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
+
+/*
+ * Author: Noreen Walker, Scientific Computing Facility, MPI-CBG
+ * Date: 2019-10
+ */
 
 /**
  * Small plugin to convert a 3D binary mask to a list of Rois in the Roi manager.

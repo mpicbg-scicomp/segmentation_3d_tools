@@ -1,4 +1,4 @@
-package de.mpicbg.scf.manualseg;
+package de.mpicbg.scf.segtools;
 
 import ij.IJ;
 import ij.ImagePlus;
@@ -10,8 +10,14 @@ import ij.process.ImageProcessor;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * Author: Noreen Walker, Scientific Computing Facility, MPI-CBG
+ * Date: 2019-10
+ */
+
+
 /**
- * static utility functions to convert between list of 2d rois and 3d binary mask
+ * static utility functions to convert between list of 2d rois and 3d binary mask and 3d label images
  */
 public class Conversions {
 
@@ -37,7 +43,7 @@ public class Conversions {
                 continue;
             }
 
-            mask.setSlice(slice);
+            mask.setSliceWithoutUpdate(slice);
             ImageProcessor maskip = mask.getProcessor();
             maskip.setValue(255);
             maskip.fill(roi);
@@ -73,7 +79,7 @@ public class Conversions {
                 continue;
             }
 
-            mask.setSlice(slice);
+            mask.setSliceWithoutUpdate(slice);
             ImageProcessor maskip = mask.getProcessor();
             maskip.setValue(255);
             maskip.fill(roi);
@@ -110,7 +116,7 @@ public class Conversions {
                 continue;
             }
 
-            mask.setSlice(slice);
+            mask.setSliceWithoutUpdate(slice);
             ImageProcessor maskip = mask.getProcessor();
             maskip.setValue(255);
             maskip.fill(roi);
@@ -144,7 +150,7 @@ public class Conversions {
                 continue;
             }
 
-            mask.setSlice(slice);
+            mask.setSliceWithoutUpdate(slice);
             ImageProcessor maskip = mask.getProcessor();
             maskip.setValue(255);
             maskip.fill(roi);
@@ -156,7 +162,7 @@ public class Conversions {
 
     /**
      * Creates a ROI from each slice in a binary image and adds the ROIs (associated to slices) to the ROI manager.
-     * If a slice is completely black (value=0) it is skipped.
+     * Null Rois (from black slices) are skipped.
      * Works in 2D & 3D
      *
      * @param rm   Roi manager where Rois will be stored
@@ -167,7 +173,7 @@ public class Conversions {
         int nSlices = mask.getNSlices();
 
         for (int slice = 1; slice < nSlices + 1; slice++) {
-            mask.setSlice(slice);
+            mask.setSliceWithoutUpdate(slice);
             ImageProcessor ip = mask.getProcessor();
 
             // threshold at 1
@@ -187,7 +193,7 @@ public class Conversions {
 
     /**
      * Creates a ROI from each slice in a binary image and returns the ROIs (associated to slices) as an array.
-     * If a slice is completely black (value=0) it is skipped.
+     * Null Rois (from black slices) are skipped.
      * Works in 2D & 3D
      *
      * @param mask binary image (e.g. 0 background, 255 foreground). Image threshold for roi creation is internally set
@@ -201,11 +207,50 @@ public class Conversions {
         int nSlices = mask.getNSlices();
 
         for (int slice = 1; slice < nSlices + 1; slice++) {
-            mask.setSlice(slice);
+            mask.setSliceWithoutUpdate(slice);
             ImageProcessor ip = mask.getProcessor();
 
             // threshold at 1
             ip.setThreshold(1, ip.maxValue(), ImageProcessor.NO_LUT_UPDATE); // maxValue() = max possible value
+
+            Roi roi = new ThresholdToSelection().convert(ip);
+
+            if (roi != null) {
+                if (nSlices > 1) {
+                    roi.setPosition(1, slice, 1);
+                }
+                roiList.add(roi);
+            }
+        }
+
+        // convert to array
+        Roi[] roiArray = roiList.toArray(new Roi[roiList.size()]);
+
+        return roiArray;
+    }
+
+
+    /**
+     * Like RoisFromBinaryMask(ImagePlus mask) but creates Rois for a single label from a label image.
+     * Rois are returned as array and associated with slices. Null Rois (from black slices) are skipped.
+     * Works in 2D & 3D
+     *
+     * @param labelImp label image (connected components) with regions of value 1,2,3,....
+     * @param labelId region for which Rois are extracted
+     * @return roiarray an array with all roi's
+     */
+    static public Roi[] RoisFromOneLabel(ImagePlus labelImp, int labelId) {
+
+        List<Roi> roiList = new ArrayList<>();
+
+        int nSlices = labelImp.getNSlices();
+
+        for (int slice = 1; slice < nSlices + 1; slice++) {
+            labelImp.setSliceWithoutUpdate(slice);
+            ImageProcessor ip = labelImp.getProcessor();
+
+            // threshold at labelId
+            ip.setThreshold(labelId, labelId+0.1, ImageProcessor.NO_LUT_UPDATE);
 
             Roi roi = new ThresholdToSelection().convert(ip);
 

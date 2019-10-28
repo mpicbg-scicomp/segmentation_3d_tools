@@ -13,11 +13,11 @@
 	</parent>
 
 	<groupId>de.mpicbg.scf</groupId>
-	<artifactId>Manual3DSegmentation</artifactId>
+	<artifactId>Segmentation3DTools</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 
-	<name>Manual3DSegmentation</name>
-	<description>Segment objects manually by drawing and interpolating Rois.</description>
+	<name>Segmentation3DTools</name>
+	<description>Semi-manual segmentation of 3D objects and conversion and visualization tools for ROIs and masks.</description>
 	<url>https://www.mpi-cbg.de/services-facilities/core-facilities/scientific-computing-facility/services/</url>
 	<inceptionYear>2019</inceptionYear>
 	<organization>
@@ -74,8 +74,8 @@
 	</ciManagement>
 
 	<properties>
-		<package-name>de.mpicbg.scf.manualseg</package-name> <!-- correct so???-->
-		<main-class>de.mpicbg.scf.manualseg.Manual3DSegmentationPlugin</main-class>
+		<package-name>de.mpicbg.scf.segtools</package-name> <!-- correct so???-->
+		<main-class>de.mpicbg.scf.segtools.Manual3DSegmentationPlugin</main-class>
 		<license.licenseName>bsd_2</license.licenseName>
 		<license.copyrightOwners>MPI CBG SCF</license.copyrightOwners>
 		<imagej.app.directory>/Users/walker/Desktop/Fiji_dev.app</imagej.app.directory>

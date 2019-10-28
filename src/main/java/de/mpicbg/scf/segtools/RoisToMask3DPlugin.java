@@ -1,4 +1,4 @@
-package de.mpicbg.scf.manualseg;
+package de.mpicbg.scf.segtools;
 
 import ij.IJ;
 import ij.ImagePlus;
@@ -7,7 +7,10 @@ import ij.plugin.frame.RoiManager;
 import org.scijava.command.Command;
 import org.scijava.plugin.Plugin;
 
-import java.io.File;
+/*
+ * Author: Noreen Walker, Scientific Computing Facility, MPI-CBG
+ * Date: 2019-10
+ */
 
 /**
  * Small plugin to convert a list of Rois in the Roi manager to a 3D binary mask.
@@ -15,7 +18,7 @@ import java.io.File;
 @Plugin(type = Command.class, menuPath = "Plugins>SegTools>ROIManager ROIs to Mask (3D)")
 public class RoisToMask3DPlugin implements Command {
 
-    // @Parameter did not work since I want the user to actively see/verify the dimensions
+    // @Parameter syntax did not work since I want the user to actively see/verify the dimensions
 
     ImagePlus imp;
     int width;

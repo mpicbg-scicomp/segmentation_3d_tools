@@ -1,11 +1,4 @@
-/**
- * Semi-manual segmentation (3D)
- *
- * Author: Noreen Walker, Scientific Computing Facility, MPI-CBG
- * Date: 2019-10
- */
-
-package de.mpicbg.scf.manualseg;
+package de.mpicbg.scf.segtools;
 
 
 import ij.IJ;
@@ -24,6 +17,13 @@ import org.scijava.plugin.Plugin;
 
 import java.awt.Color;
 
+
+/*
+ * Author: Noreen Walker, Scientific Computing Facility, MPI-CBG
+ * Date: 2019-10
+ */
+
+
 // notes:
 // * interpolation of rois only works for single object (at a time), so splitting of binary mask into connected
 //      components is not necessary
@@ -41,10 +41,7 @@ public class Manual3DSegmentationPlugin implements Command {
     @Override
     public void run() {
 
-        if (imp.getNChannels()>1 || imp.getNFrames()>1) {
-            IJ.error("Image must have a single channel and single time-point.");
-            return;
-        }
+        if (!checkInput()) return;
 
         // set up roi manager
         RoiManager rm = RoiManager.getRoiManager();
@@ -116,6 +113,19 @@ public class Manual3DSegmentationPlugin implements Command {
         rm.deselect();
 
         IJ.setTool("rectangle");
+    }
+
+
+    /**
+     * sanity checks.
+     * @return whether checks were successful
+     */
+    private final boolean checkInput() {
+        if (imp.getNChannels()>1 || imp.getNFrames()>1) {
+            IJ.error("Image must have a single channel and single time-point.");
+            return false;
+        }
+        return true;
     }
 
 
