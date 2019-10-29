@@ -18,18 +18,18 @@
 
 	<name>Segmentation3DTools</name>
 	<description>Semi-manual segmentation of 3D objects and conversion and visualization tools for ROIs and masks.</description>
-	<url>https://www.mpi-cbg.de/services-facilities/core-facilities/scientific-computing-facility/services/</url>
+	<url>none</url> <!--TODO-->
 	<inceptionYear>2019</inceptionYear>
 	<organization>
 		<name>MPI CBG</name>
-		<url>https://www.mpi-cbg.de/home/</url>
+		<url>https://www.mpi-cbg.de/services-facilities/core-facilities/scientific-computing-facility/service-portfolio-overview/</url>
 	</organization>
-	<licenses>
-		<license>
-			<name>Simplified BSD License</name>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>BSD License Version 3</name>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
 	<developers>
 		<!-- See https://imagej.net/Team -->
@@ -74,9 +74,9 @@
 	</ciManagement>
 
 	<properties>
-		<package-name>de.mpicbg.scf.segtools</package-name> <!-- correct so???-->
+		<package-name>de.mpicbg.scf.segtools</package-name>
 		<main-class>de.mpicbg.scf.segtools.Manual3DSegmentationPlugin</main-class>
-		<license.licenseName>bsd_2</license.licenseName>
+		<license.licenseName>bsd_3</license.licenseName>
 		<license.copyrightOwners>MPI CBG SCF</license.copyrightOwners>
 		<imagej.app.directory>/Users/walker/Desktop/Fiji_dev.app</imagej.app.directory>
         <imagej.app.subdirectory>plugins</imagej.app.subdirectory>
@@ -88,6 +88,23 @@
             <url>http://maven.imagej.net/content/groups/public</url>
         </repository>
     </repositories>
+
+    <!-- don't package resources files into jar -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <excludes>
+                        <exclude>*.tif</exclude>
+                        <exclude>*.zip</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 	<dependencies>
 		<dependency>
