@@ -26,10 +26,11 @@ public class Conversions {
      *
      * @param rm  roi manager with rois
      * @param imp sets the target size of mask.
+     * @param associate if true the ROIs are only drawn in the associated slices, otherwise they are drawn in all slices.
      * @return mask. 8 bit binary mask with foreground (=roi regions) value 255, background=0.
      * mask is calibrated like imp.
      */
-    static public ImagePlus BinaryMaskFromRois(RoiManager rm, ImagePlus imp) {
+    static public ImagePlus BinaryMaskFromRois(RoiManager rm, ImagePlus imp, boolean associate) {
         ImagePlus mask = IJ.createImage("binary mask", "8-bit black", imp.getWidth(), imp.getHeight(), imp.getNSlices());
         mask.setCalibration(imp.getCalibration());
 
@@ -37,16 +38,8 @@ public class Conversions {
 
         for (int idx = 0; idx < numrois; idx++) {
             Roi roi = rm.getRoi(idx);
-            int slice = roi.getZPosition();
-            if (imp.getNSlices() > 1 && slice == 0) {
-                IJ.log("Warning: Roi " + idx + " is not associated to a specific slice. Skipping");
-                continue;
-            }
 
-            mask.setSliceWithoutUpdate(slice);
-            ImageProcessor maskip = mask.getProcessor();
-            maskip.setValue(255);
-            maskip.fill(roi);
+            UpdateMask(mask,roi,associate,idx);
         }
 
         mask.setSlice(1);
@@ -58,9 +51,10 @@ public class Conversions {
      *
      * @param rm     roi manager with rois
      * @param width, height, nslices: target dimensions
+     * @param associate if true the ROIs are only drawn in the associated slices, otherwise they are drawn in all slices.
      * @return mask. 8 bit binary mask with foreground (=roi regions) value 255, background=0. uncalibrated.
      */
-    static public ImagePlus BinaryMaskFromRois(RoiManager rm, int width, int height, int nslices) {
+    static public ImagePlus BinaryMaskFromRois(RoiManager rm, int width, int height, int nslices, boolean associate) {
 
         if (width < 1 || height < 1 || nslices < 1) {
             IJ.log("Target size for mask is zero or negative! Returning null");
@@ -73,21 +67,16 @@ public class Conversions {
 
         for (int idx = 0; idx < numrois; idx++) {
             Roi roi = rm.getRoi(idx);
-            int slice = roi.getZPosition();
-            if (nslices > 1 && slice == 0) {
-                IJ.log("Warning: Roi " + idx + " is not associated to a specific slice. Skipping");
-                continue;
-            }
 
-            mask.setSliceWithoutUpdate(slice);
-            ImageProcessor maskip = mask.getProcessor();
-            maskip.setValue(255);
-            maskip.fill(roi);
+            UpdateMask(mask, roi, associate, idx);
+
         }
 
         mask.setSlice(1);
         return mask;
     }
+
+
 
     /**
      * Creates a binary image mask of all roi's in the roi array. Works in 2D & 3D.
@@ -95,9 +84,10 @@ public class Conversions {
      *
      * @param roiarray Array of rois
      * @param width,   height, nslices: target dimensions
+     * @param associate if true the ROIs are only drawn in the associated slices, otherwise they are drawn in all slices.
      * @return mask. 8 bit binary mask with foreground (=roi regions) value 255, background=0. uncalibrated
      */
-    static public ImagePlus BinaryMaskFromRois(Roi[] roiarray, int width, int height, int nslices) {
+    static public ImagePlus BinaryMaskFromRois(Roi[] roiarray, int width, int height, int nslices, boolean associate) {
 
         if (width < 1 || height < 1 || nslices < 1) {
             IJ.log("Target size for mask is zero or negative! Returning null");
@@ -110,16 +100,8 @@ public class Conversions {
 
         for (int idx = 0; idx < numrois; idx++) {
             Roi roi = roiarray[idx];
-            int slice = roi.getZPosition();
-            if (nslices > 1 && slice == 0) {
-                IJ.log("Warning: Roi " + idx + " is not associated to a specific slice. Skipping");
-                continue;
-            }
 
-            mask.setSliceWithoutUpdate(slice);
-            ImageProcessor maskip = mask.getProcessor();
-            maskip.setValue(255);
-            maskip.fill(roi);
+            UpdateMask(mask, roi, associate, idx);
         }
 
         mask.setSlice(1);
@@ -132,10 +114,11 @@ public class Conversions {
      *
      * @param roiarray Array of rois
      * @param imp:     sets target dimensions of mask
+     * @param associate if true the ROIs are only drawn in the associated slices, otherwise they are drawn in all slices.
      * @return mask. 8 bit binary mask with foreground (=roi regions) value 255, background=0.
      * mask is calibrated like imp.
      */
-    static public ImagePlus BinaryMaskFromRois(Roi[] roiarray, ImagePlus imp) {
+    static public ImagePlus BinaryMaskFromRois(Roi[] roiarray, ImagePlus imp, boolean associate) {
 
         ImagePlus mask = IJ.createImage("binary mask", "8-bit black", imp.getWidth(), imp.getHeight(), imp.getNSlices());
         mask.setCalibration(imp.getCalibration());
@@ -144,20 +127,48 @@ public class Conversions {
 
         for (int idx = 0; idx < numrois; idx++) {
             Roi roi = roiarray[idx];
-            int slice = roi.getZPosition();
-            if (imp.getNSlices() > 1 && slice == 0) {
-                IJ.log("Warning: Roi " + idx + " is not associated to a specific slice. Skipping");
-                continue;
-            }
 
-            mask.setSliceWithoutUpdate(slice);
-            ImageProcessor maskip = mask.getProcessor();
-            maskip.setValue(255);
-            maskip.fill(roi);
+            UpdateMask(mask, roi, associate, idx);
         }
 
         mask.setSlice(1);
         return mask;
+    }
+
+
+    /** Helper for the the BinaryMaskFromROIs function family. Draws a single roi.
+     */
+    private static void UpdateMask(ImagePlus mask, final Roi roi, final boolean associate, final int idx) {
+
+        int nslices=mask.getNSlices();
+
+        int roislice = roi.getZPosition();
+
+        // check if roi has an associated slice
+        boolean associateThisRoi=associate;
+        if (associate && nslices > 1 && roislice == 0) {
+            IJ.log("Warning: Roi " + idx + " is not associated to a specific slice. Drawing into all slices");
+            associateThisRoi=false;
+        }
+
+        // draw roi into single slice
+        if (associateThisRoi) {
+            if (roislice<=nslices){
+                mask.setSliceWithoutUpdate(roislice);
+                ImageProcessor maskip = mask.getProcessor();
+                maskip.setValue(255);
+                maskip.fill(roi);
+            }
+        }
+        else {
+            // draw into all slices
+            for (int sliceid = 1; sliceid < 1+nslices; sliceid++) {
+                mask.setSlice(sliceid);
+                ImageProcessor maskip = mask.getProcessor();
+                maskip.setValue(255);
+                maskip.fill(roi);
+            }
+        }
     }
 
     /**

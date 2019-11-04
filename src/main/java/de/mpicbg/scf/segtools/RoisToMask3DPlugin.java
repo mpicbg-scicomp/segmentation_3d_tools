@@ -7,6 +7,8 @@ import ij.plugin.frame.RoiManager;
 import org.scijava.command.Command;
 import org.scijava.plugin.Plugin;
 
+import java.io.File;
+
 /*
  * Author: Noreen Walker, Scientific Computing Facility, MPI-CBG
  * Date: 2019-10
@@ -32,7 +34,7 @@ public class RoisToMask3DPlugin implements Command {
         RoiManager rm = RoiManager.getRoiManager();
 
         // for development only
-       /*if (new File("src/main/resources/RoiSet.zip").exists()) {
+      /* if (new File("src/main/resources/RoiSet.zip").exists()) {
             rm.runCommand("Open", "src/main/resources/RoiSet.zip");
         }*/
 
@@ -61,6 +63,7 @@ public class RoisToMask3DPlugin implements Command {
         gd.addNumericField("Height", height, 0);
         gd.addNumericField("Slices", nslices, 0);
         gd.addCheckbox("Use calibration from active image?", true);
+        gd.addCheckbox("Associate ROIs to slices",true);
         gd.showDialog();
 
         if (gd.wasCanceled()) {
@@ -71,9 +74,10 @@ public class RoisToMask3DPlugin implements Command {
         height= (int) gd.getNextNumber();
         nslices=(int) gd.getNextNumber();
         boolean useCalib=gd.getNextBoolean();
+        boolean associate=gd.getNextBoolean();
 
         // create binary mask
-        ImagePlus mask = Conversions.BinaryMaskFromRois(rm,width,height,nslices);
+        ImagePlus mask = Conversions.BinaryMaskFromRois(rm,width,height,nslices, associate);
 
         if (useCalib && (imp!=null)) {
             mask.setCalibration(imp.getCalibration());

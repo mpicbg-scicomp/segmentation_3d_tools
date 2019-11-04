@@ -83,7 +83,6 @@ public class Create3DOverlayPlugin implements Command {
         Color[] colors = new Color[count];
 
         if (colorStr.equals("red")) {
-            System.out.println("red here");
             Arrays.fill(colors,Color.red);
         }
         else if (colorStr.equals("cyan")) {

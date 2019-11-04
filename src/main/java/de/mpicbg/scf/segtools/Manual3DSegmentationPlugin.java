@@ -81,7 +81,7 @@ public class Manual3DSegmentationPlugin implements Command {
         // process the ROIs from the roi manager
 
         // create binary mask
-        ImagePlus mask = Conversions.BinaryMaskFromRois(rm, imp);
+        ImagePlus mask = Conversions.BinaryMaskFromRois(rm, imp, true);
         mask.show();
 
         // overlay on original image

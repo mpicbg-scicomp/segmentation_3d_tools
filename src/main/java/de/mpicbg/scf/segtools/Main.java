@@ -33,11 +33,12 @@ public class Main {
 
         // invoke the plugin (IJ2 style)
         // automatize input for all @Parameters
-        Map<String, Object> map = new HashMap<>();
-        map.put("segImp", labels);
-        map.put("imp", imp);
+   /*     Map<String, Object> map = new HashMap<>();
+          map.put("segImp", labels);
+          map.put("imp", imp);
 
-        ij.command().run(Create3DOverlayPlugin.class, true, map);
+        ij.command().run(Create3DOverlayPlugin.class, true, map);*/
+        ij.command().run(RoisToMask3DPlugin.class, true);
     }
 
 

@@ -19,23 +19,23 @@
 ## About
 
 Segtools is a collection of small utility plugins for 3D segmentation in ImageJ/Fiji. They provide functionality for:
-* [Semi-manual segmentation (3D)](#semi-manual-segmentation-(3D))
-* [Conversion of ROI in the ROI manager to a 3D binary mask](#Mask-(3D)-to-ROI-Manager-ROIs)
-* [Back-conversion from a 3D binary mask to a list of ROIs in the ROI manager](#ROI-Manager-ROIs-to-Mask-(3D))
-* [Visualization of a segmentation as image overlay](#Create-Overlay-of-Segmentation-(3D))
+* Semi-manual segmentation (3D)
+* Conversion of ROI in the ROI manager to a 3D binary mask
+* Back-conversion from a 3D binary mask to a list of ROIs in the ROI manager
+* Visualization of a 3D segmentation as image overlay
 
 
-The plugins are developed at the [**Scientific Computing Facility of the MPI-CBG Dresden**](https://www.mpi-cbg.de/services-facilities/core-facilities/scientific-computing-facility/service-portfolio-overview/).
+The plugins are being developed at the [**Scientific Computing Facility of the MPI-CBG Dresden**](https://www.mpi-cbg.de/services-facilities/core-facilities/scientific-computing-facility/service-portfolio-overview/).
 
 ## Installation
 * **SegTools** is distributed via an **Update site** in **Fiji**. To add it, open Fiji, then click the Menu `Help > Update ..., then XXXX TODO`. Then restart Fiji.
-* Some of the plugins depend on the [**MorpholibJ**](https://imagej.net/MorphoLibJ) library. Add MorpholibJ update site to your Fiji: `Help > Update ... > ` select `IJPB-plugins > Close > Apply Changes`. Then restart Fiji.
+* Some of the plugins depend on the [**MorpholibJ**](https://imagej.net/MorphoLibJ) library. To add this library to your Fiji: Click `Help > Update ... > ` select `IJPB-plugins > Close > Apply Changes`. Then restart Fiji.
 * For general instructions on how to follow an update site, check [here](https://imagej.net/Following_an_update_site).
 
 
 
 
-## Descriptions of plugins
+## Plugin Descriptions
 
 ### Semi-manual Segmentation (3D)
 Menu path: `Plugins > SegTools > Semi-manual Segmentation (3D)`
@@ -65,6 +65,7 @@ Press `OK` to finish, and the plugin creates a **3D binary mask** and, if chosen
 
 ![result](imgs/plugin_semimanual_merge_results.png "3D visualization done with Fiji plugin 3D viewer.")
 
+<br/>
 
 ### Mask (3D) to ROI Manager ROIs
 Menu path: `Plugins > SegTools > Mask (3D) to ROI Manager ROIs`
@@ -72,6 +73,8 @@ Menu path: `Plugins > SegTools > Mask (3D) to ROI Manager ROIs`
 This plugin converts a binary 3D (or 2D) mask into a list of ROIs in the ROI manager. The ROIs are associated with slices. The ROI manager is cleared before adding the new ROIs.
 
 ![mask2roi](imgs/plugin_mask2roi_merge_withbackgroundbox.png)
+
+<br/>
 
 
 ### ROI Manager ROIs to Mask (3D)
@@ -85,12 +88,14 @@ Create one or more ROIs and add to the ROI Manager. In 3D, ROIs are typically as
 GUI options:
 * **Target dimensions**: Size of the mask that will be created. Should be the same size as the grayscale image to which the mask belongs. If an image is open, the default size is taken from the active image.
 * **Use calibration from active image**: If checked, then copies the calibration information from the current active image.
-* **TODO** **Associate ROIs to slices** If checked, then each ROI is drawn into its associated slice, otherwise it is drawn into all slices.<br/>
+* **Associate ROIs to slices**: If checked, then each ROI is drawn into its associated slice, otherwise it is drawn into all slices.<br/>
 Examples:
 	* Keep checked if the ROIs correspond to an actual 3D shape.
 	* Uncheck if you want to repeat a single ROI in all slices.
 
 ![mask2roi](imgs/plugin_roi2mask_merge.png)
+
+<br/>
 
 ### Create Overlay of Segmentation (3D)
 Menu path: `Plugins > SegTools > Create Overlay of Segmentation (3D)`
@@ -124,7 +129,7 @@ run("ROIManager ROIs to Mask (3D)", "width=256 height=256 slices=129 use");
 TODO: Create overlay is not macro-recordable! Nor is the semi-manual segmentation (but less important)
 
 
-#### Scripting languages
+#### Scripting languages TODO more examples
 The plugins can be recorded similar to the macro language. But for scripting languages it can be more useful to directly use the Conversions [TODO link] class (a collection of static utility functions) to convert between ROIs and binary masks.
 ```python
 from ij import IJ 
@@ -134,6 +139,3 @@ mask=IJ.getImage(); # binary mask
 
 roiArray=Conversions.RoisFromBinaryMask(mask) # array of rois
 ```
-
-## License
-TODO
