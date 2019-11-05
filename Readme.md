@@ -20,7 +20,7 @@
 
 Segtools is a collection of small utility plugins for 3D segmentation in ImageJ/Fiji. They provide functionality for:
 * Semi-manual segmentation (3D)
-* Conversion of ROI in the ROI manager to a 3D binary mask
+* Conversion of ROIs in the ROI manager to a 3D binary mask
 * Back-conversion from a 3D binary mask to a list of ROIs in the ROI manager
 * Visualization of a 3D segmentation as image overlay
 
@@ -29,7 +29,7 @@ The plugins are being developed at the [**Scientific Computing Facility of the M
 
 ## Installation
 * **SegTools** is distributed via an **Update site** in **Fiji**. To add it, open Fiji, then click the Menu `Help > Update ..., then XXXX TODO`. Then restart Fiji.
-* Some of the plugins depend on the [**MorpholibJ**](https://imagej.net/MorphoLibJ) library. To add this library to your Fiji: Click `Help > Update ... > ` select `IJPB-plugins > Close > Apply Changes`. Then restart Fiji.
+* Some of the plugins depend on the [**MorpholibJ**](https://imagej.net/MorphoLibJ) library. To add this library to your Fiji: Click `Help > Update ... > ` select `IJPB-plugins > ` then select `Close > Apply Changes`. Then restart Fiji.
 * For general instructions on how to follow an update site, check [here](https://imagej.net/Following_an_update_site).
 
 
