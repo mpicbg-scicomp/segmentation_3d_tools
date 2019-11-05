@@ -85,10 +85,10 @@ Examples:
 ### Create Overlay of Segmentation (3D)
 Menu path: `Plugins > SegTools > Create Overlay of Segmentation (3D)`
 
-Creates an overlay of a 3D (or 2D) segmentation mask onto another grayscale image. This is useful to visualize the segmentation.
+Creates an overlay of a 3D (or 2D) segmentation image onto another grayscale image. This is useful to visualize the segmentation.
 
 #### Usage
-Open a segmentation image and the corresponding raw grayscale image. The segmentation image is either binary (foreground/background) or contains labelled regions (each region has a different value 1,2,3,.... This can for example be created from a binary image with the Connected Component Labeling plugin by MorpholibJ). Then start the plugin.
+Open a segmentation image and the corresponding raw grayscale image (multi-channel raw image works as well). The segmentation image can be either binary (foreground/background) or contain labelled regions (with region values 1,2,3,.....; this can for example be obtained with the Connected Component Labeling plugin in MorpholibJ). Then start the plugin.
 
 ![overlaygui](imgs/plugin_overlay_gui_merge.png)
 
@@ -116,11 +116,11 @@ Create an overlay of a segmentation image:
 ```
 run("Create Overlay of Segmentation (3D)", "segimp=labelimage.tif grayimp=mri-stack.tif colorstr=multicolor");
 ```
-Note: Semi-manual segmentation is not macro-recordable but is interactive in the nature of the plugin.
+Note: Semi-manual segmentation is not macro-recordable but this plugin is interactive by its nature.
 
 
 #### Scripting languages
-For scripting languages (like jython etc. ) the plugins can be recorded similar to the macro language. It can however be useful to directly make use of the [Conversions](https://github.com/mpicbg-scicomp/segmentation_3d_tools/blob/master/src/main/java/de/mpicbg/scf/segtools/Conversions.java) class (a collection of static utility functions) to convert between ROIs and binary masks, since the results are returned and not displayed.
+For scripting languages (like jython etc. ) the plugins can be recorded similar to the macro language. It can however also be useful to directly make use of the [Conversions](https://github.com/mpicbg-scicomp/segmentation_3d_tools/blob/master/src/main/java/de/mpicbg/scf/segtools/Conversions.java) class (a collection of static utility functions) to convert between ROIs and binary masks, since the results are then returned and not displayed.
 
 *Examples (jython)*:
 
