@@ -4,8 +4,6 @@ import ij.IJ;
 import ij.ImagePlus;
 import net.imagej.ImageJ;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Main {
     public static void main(final String... args) throws Exception {
@@ -15,6 +13,7 @@ public class Main {
         //String pluginsDir = "/Applications/Fiji/plugins";
         //System.setProperty("plugins.dir", pluginsDir);
 
+
         final ImageJ ij = new ImageJ();
         ij.ui().showUI();
 
@@ -23,10 +22,10 @@ public class Main {
         File inputFile=new File("src/main/resources/mri-stack.tif");
 
         ImagePlus imp= IJ.openImage(inputFile.getPath());
-        imp.show();
+        //imp.show();
 
         ImagePlus labels=IJ.openImage("src/main/resources/3dlabelled.tif");
-        labels.show();
+        //labels.show();
 
         // invoke the plugin (IJ2 style)
         //ij.command().run(Mask3DToRoisPlugin.class,true);
@@ -38,7 +37,7 @@ public class Main {
           map.put("imp", imp);
 
         ij.command().run(Create3DOverlayPlugin.class, true, map);*/
-        ij.command().run(RoisToMask3DPlugin.class, true);
+        ij.command().run(AboutPlugin.class, true);
     }
 
 

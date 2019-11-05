@@ -22,6 +22,8 @@ public class RoisToMask3DPlugin implements Command {
 
     // @Parameter syntax did not work since I want the user to actively see/verify the dimensions
 
+    final String helpURL="https://github.com/mpicbg-scicomp/segmentation_3d_tools";
+
     ImagePlus imp;
     int width;
     int height;
@@ -64,6 +66,7 @@ public class RoisToMask3DPlugin implements Command {
         gd.addNumericField("Slices", nslices, 0);
         gd.addCheckbox("Use calibration from active image?", true);
         gd.addCheckbox("Associate ROIs to slices",true);
+        gd.addHelp(helpURL);
         gd.showDialog();
 
         if (gd.wasCanceled()) {

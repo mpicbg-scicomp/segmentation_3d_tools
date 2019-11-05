@@ -1,11 +1,7 @@
 # SegTools
 
 ### TODO Collection
-* TODO: add a classnotfound catch in the source code? in case morpholibj is not installed?
-* ROI manager to mask: when not asociated to slices: draw into every slice. keep consistent with the other plugins
-* TODO: add the checkbox option to whether or not associate with slices
 * update screenshot gui below.
-* add a link to this repo in the plugin GUIs or an "about" section
 * are the plugins macro-recordable? add a comment below
 * ToDo update all menupaths once moving to scf update site
 * Update the update site instructions once moving to the scf update site

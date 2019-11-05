@@ -35,6 +35,8 @@ import java.awt.Color;
 @Plugin(type = Command.class, menuPath = "Plugins>SegTools>Semi-manual Segmentation (3D)")
 public class Manual3DSegmentationPlugin implements Command {
 
+    final String helpURL="https://github.com/mpicbg-scicomp/segmentation_3d_tools";
+
     @Parameter(label = "input image")
     ImagePlus imp;
 
@@ -69,6 +71,7 @@ public class Manual3DSegmentationPlugin implements Command {
                 "* When finished, press OK.");
         gd.addCheckbox("Add overlay", true);
         gd.addCheckbox("Compute statistics (MorpholibJ)", true);
+        gd.addHelp(helpURL);
         gd.showDialog();
 
         if (gd.wasCanceled()) {

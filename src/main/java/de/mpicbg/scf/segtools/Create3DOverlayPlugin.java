@@ -25,6 +25,9 @@ import java.util.Arrays;
 @Plugin(type = Command.class, menuPath = "Plugins>SegTools>Create Overlay of Segmentation (3D)")
 public class Create3DOverlayPlugin implements Command {
 
+    //still unused TODO
+    final String helpURL="https://github.com/mpicbg-scicomp/segmentation_3d_tools";
+
     @Parameter(label = "segmentation image (binary or labelled regions)", description = "binary: foreground=255, labelled: regions=1,2,3,...")
     ImagePlus segImp;
 
@@ -38,6 +41,15 @@ public class Create3DOverlayPlugin implements Command {
     public void run() {
 
         if (!checkInput()) return;
+
+        // morphlibj is required
+        try {
+            Class.forName("inra.ijpb.label.LabelImages");
+        } catch (ClassNotFoundException e) {
+            IJ.error("MorpholibJ was not found. Please add the IJPB-plugins update site.");
+            return;
+        }
+
 
         int[] labelIds = LabelImages.findAllLabels(segImp);
 
