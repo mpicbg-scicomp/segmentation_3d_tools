@@ -13,12 +13,12 @@
 	</parent>
 
 	<groupId>de.mpicbg.scf</groupId>
-	<artifactId>Segmentation3DTools</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<artifactId>SegmentationTools3D</artifactId>
+	<version>1.0.0</version>
 
 	<name>Segmentation3DTools</name>
-	<description>Semi-manual segmentation of 3D objects and conversion and visualization tools for ROIs and masks.</description>
-	<url>none</url> <!--TODO-->
+	<description>Semi-manual segmentation of 3D objects and conversion and visualization tools for ROIs and masks in 3D.</description>
+	<url>https://github.com/mpicbg-scicomp/segmentation_3d_tools</url>
 	<inceptionYear>2019</inceptionYear>
 	<organization>
 		<name>MPI CBG</name>
@@ -33,7 +33,6 @@
 
 
 	<developers>
-		<!-- See https://imagej.net/Team -->
 		<developer>
 			<id>walkernoreen</id>
 			<name>Noreen Walker</name>
@@ -60,18 +59,15 @@
 		</mailingList>
 	</mailingLists>
 
-	<scm> <!-- TODO Update from here on -->
-		<connection>scm:git:git://github.com/imagej/example-imagej-command</connection>
-		<developerConnection>scm:git:git@github.com:imagej/example-imagej-command</developerConnection>
-		<tag>HEAD</tag>
-		<url>https://github.com/imagej/example-imagej-command</url>
+	<scm>
+		<url>none</url>
 	</scm>
 	<issueManagement>
 		<system>GitHub Issues</system>
-		<url>https://github.com/imagej/example-imagej-command/issues</url>
+		<url>hhttps://github.com/mpicbg-scicomp/segmentation_3d_tools/issues</url>
 	</issueManagement>
 	<ciManagement>
-		<system>None</system>
+		<system>none</system>
 	</ciManagement>
 
 	<properties>

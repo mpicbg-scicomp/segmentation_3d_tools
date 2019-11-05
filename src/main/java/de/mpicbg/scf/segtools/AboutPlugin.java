@@ -22,7 +22,7 @@ public class AboutPlugin implements Command {
     public void run() {
 
         String infoText1="SegTools is developed at the Scientific Computing Facility\n"+
-                "at the MPI-CBG by Noreen Walker.";
+                "at the MPI-CBG.";
 
         String infoText2="Project page with Help and further Information (or press the Help button):\n"+
                 helpURL;

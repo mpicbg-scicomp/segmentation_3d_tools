@@ -15,7 +15,7 @@ import org.scijava.plugin.Plugin;
  * Small plugin to convert a 3D binary mask to a list of Rois in the Roi manager.
  * Image threshold is taken at 1 (relevant if image is not binary, for example a label image)
  */
-@Plugin(type = Command.class, menuPath = "Plugins>SegTools>Mask (3D) to ROIManager ROIs")
+@Plugin(type = Command.class, menuPath = "Plugins>SegTools>Mask (3D) to ROI Manager ROIs")
 public class Mask3DToRoisPlugin implements Command {
 
     @Parameter(label = "mask image")

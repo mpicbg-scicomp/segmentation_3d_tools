@@ -29,7 +29,7 @@ import java.awt.Color;
 //      components is not necessary
 
 /**
- * Plugin to do semi-manual segmentation in 3D (and 2D) by drawing and interpolating ROIs.
+ * Plugin to do semi-manual segmentation in 3D (and 2D) of the active image by drawing and interpolating ROIs.
  * Plugin creates a mask and optionally computes statistics (the latter requires MorpholibJ).
  */
 @Plugin(type = Command.class, menuPath = "Plugins>SegTools>Semi-manual Segmentation (3D)")

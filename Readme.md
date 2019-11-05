@@ -1,26 +1,13 @@
 # SegTools
 
-### TODO Collection
-* update screenshot gui below.
-* are the plugins macro-recordable? add a comment below
-* ToDo update all menupaths once moving to scf update site
+### TODO
+* Update all menu paths once moving to scf update site
 * Update the update site instructions once moving to the scf update site
-* add a category: ### Author or something like this -> SCF
-* make images of this readme into right size
-* update plugin names: ROI Manager isntead of ROI Manager
-* Important: ROI manager to Mask: don't crash if no image is open!
-* Important: Create overlay: There can be an infinite loop?! in the installed Fiji_dev
-* Create overlay is not macro recordable
 
 ## About
+SegTools is a collection of small utility plugins for 3D segmentation in ImageJ/Fiji. They provide functionality for semi-manual segmentation, conversion between ROIs and binary masks and visualization of segmentations.
 
-Segtools is a collection of small utility plugins for 3D segmentation in ImageJ/Fiji. They provide functionality for:
-* Semi-manual segmentation (3D)
-* Conversion of ROIs in the ROI manager to a 3D binary mask
-* Back-conversion from a 3D binary mask to a list of ROIs in the ROI manager
-* Visualization of a 3D segmentation as image overlay
-
-
+## Authors
 The plugins are being developed at the [**Scientific Computing Facility of the MPI-CBG Dresden**](https://www.mpi-cbg.de/services-facilities/core-facilities/scientific-computing-facility/service-portfolio-overview/).
 
 ## Installation
@@ -112,28 +99,64 @@ GUI options:
 
 ![overlaygui](imgs/overlay_result_withboundingbox.png)
 
-## Macros and Scripting TODO
+## Macros and Scripting
 
 #### Macros
-Convert ROIs to a binary mask:
-```
-run("Mask (3D) to ROIManager ROIs");
-```
-Convert binary mask to ROIs:
-```
-run("ROIManager ROIs to Mask (3D)", "width=256 height=256 slices=129 use");
-```
+The SegTool plugins are macro recordable. Recorded example macro code:
 
-TODO: Create overlay is not macro-recordable! Nor is the semi-manual segmentation (but less important)
+Convert ROIs to a binary 3D mask:
+```
+run("Mask (3D) to ROI Manager ROIs");
+```
+Convert binary 3D mask to ROIs:
+```
+run("ROI Manager ROIs to Mask (3D)", "width=256 height=256 slices=129 use associate");
+```
+Create an overlay of a segmentation image:
+```
+run("Create Overlay of Segmentation (3D)", "segimp=labelimage.tif grayimp=mri-stack.tif colorstr=multicolor");
+```
+Note: Semi-manual segmentation is not macro-recordable but is interactive in the nature of the plugin.
 
 
-#### Scripting languages TODO more examples
-The plugins can be recorded similar to the macro language. But for scripting languages it can be more useful to directly use the Conversions [TODO link] class (a collection of static utility functions) to convert between ROIs and binary masks.
+#### Scripting languages
+For scripting languages (like jython etc. ) the plugins can be recorded similar to the macro language. It can however be useful to directly make use of the [Conversions](https://github.com/mpicbg-scicomp/segmentation_3d_tools/blob/master/src/main/java/de/mpicbg/scf/segtools/Conversions.java) class (a collection of static utility functions) to convert between ROIs and binary masks, since the results are returned and not displayed.
+
+*Examples (jython)*:
+
+Create segmentation overlay (recorded script):
 ```python
 from ij import IJ 
-from de.mpicbg.scf.segtools import Conversions #TODO update when package is updated
+
+# labelledregions.tif and t1-head.tif are open images
+
+IJ.run("Create Overlay of Segmentation (3D)", "segimp=labelledregions.tif grayimp=t1-head.tif colorstr=multicolor");
+```
+
+Convert binary mask to an array of ROIs with Conversions class:
+```python
+from ij import IJ 
+from de.mpicbg.scf.segtools import Conversions 
 
 mask=IJ.getImage(); # binary mask
 
 roiArray=Conversions.RoisFromBinaryMask(mask) # array of rois
 ```
+
+Convert ROIs (of the ROI manager) to binary 3D mask with Conversions class:
+```python
+from ij import IJ 
+from ij.plugin.frame import RoiManager
+from de.mpicbg.scf.segtools import Conversions 
+
+# grab the ROI manager. it should be filled with ROIs
+rm = RoiManager.getRoiManager();
+
+# target size
+width=100
+height=100
+nslices=20
+
+mask=Conversions.BinaryMaskFromRois(rm,  width, height, nslices, True) # True: associate to slices
+```
+Note: Alternative function that takes the ROIs in the shape of an array instead exists.

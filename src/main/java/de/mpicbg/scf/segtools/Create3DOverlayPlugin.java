@@ -25,14 +25,14 @@ import java.util.Arrays;
 @Plugin(type = Command.class, menuPath = "Plugins>SegTools>Create Overlay of Segmentation (3D)")
 public class Create3DOverlayPlugin implements Command {
 
-    //still unused TODO
+    //still unused
     final String helpURL="https://github.com/mpicbg-scicomp/segmentation_3d_tools";
 
     @Parameter(label = "segmentation image (binary or labelled regions)", description = "binary: foreground=255, labelled: regions=1,2,3,...")
-    ImagePlus segImp;
+    ImagePlus segImp; // imp was not macro-recordable?!
 
     @Parameter(label= "grayscale image", description = "Overlay will be added to this image")
-    ImagePlus imp;
+    ImagePlus grayImp;
 
     @Parameter(label="color mode",choices = {"multicolor","red", "cyan", "magenta"},description = "if multicolor and labelled regions: different objects are displayed in different colors")
     String colorStr="multicolor";
@@ -50,7 +50,6 @@ public class Create3DOverlayPlugin implements Command {
             return;
         }
 
-
         int[] labelIds = LabelImages.findAllLabels(segImp);
 
         Color[] colors = pickColors(colorStr, labelIds.length);
@@ -61,11 +60,11 @@ public class Create3DOverlayPlugin implements Command {
         for (int idx=0; idx<labelIds.length; idx++) {
             Roi[] rois = Conversions.RoisFromOneLabel(segImp, labelIds[idx]);
 
-            AddRoiArrayToOverlay(ov,imp,rois,colors[idx]);
+            AddRoiArrayToOverlay(ov, grayImp,rois,colors[idx]);
         }
 
 
-        imp.setOverlay(ov);
+        grayImp.setOverlay(ov);
     }
 
     /**
@@ -73,7 +72,7 @@ public class Create3DOverlayPlugin implements Command {
      * @return whether checks were successful
      */
     private final boolean checkInput() {
-        if ((imp.getHeight()!=segImp.getHeight()) || (imp.getWidth()!=segImp.getWidth()) || (imp.getNSlices()!=segImp.getNSlices())) {
+        if ((grayImp.getHeight()!=segImp.getHeight()) || (grayImp.getWidth()!=segImp.getWidth()) || (grayImp.getNSlices()!=segImp.getNSlices())) {
             IJ.error("Image dimensions in x,y,z must be the same for grayscale and segmentation image");
             return false;
         }

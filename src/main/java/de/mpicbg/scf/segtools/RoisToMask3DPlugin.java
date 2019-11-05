@@ -2,6 +2,7 @@ package de.mpicbg.scf.segtools;
 
 import ij.IJ;
 import ij.ImagePlus;
+import ij.WindowManager;
 import ij.gui.GenericDialog;
 import ij.plugin.frame.RoiManager;
 import org.scijava.command.Command;
@@ -17,7 +18,7 @@ import java.io.File;
 /**
  * Small plugin to convert a list of Rois in the Roi manager to a 3D binary mask.
  */
-@Plugin(type = Command.class, menuPath = "Plugins>SegTools>ROIManager ROIs to Mask (3D)")
+@Plugin(type = Command.class, menuPath = "Plugins>SegTools>ROI Manager ROIs to Mask (3D)")
 public class RoisToMask3DPlugin implements Command {
 
     // @Parameter syntax did not work since I want the user to actively see/verify the dimensions
@@ -46,14 +47,15 @@ public class RoisToMask3DPlugin implements Command {
         }
 
 
-        // get target dimensions
-        imp = IJ.getImage();
-        if (imp!=null) {
+        // initialize target dimensions
+        if (WindowManager.getImageCount()>0) {
+            imp = IJ.getImage();
             width=imp.getWidth();
             height=imp.getHeight();
             nslices=imp.getNSlices();
         }
         else {
+            imp=null;
             width=0;
             height=0;
             nslices=0;

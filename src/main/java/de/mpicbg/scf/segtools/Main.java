@@ -4,6 +4,8 @@ import ij.IJ;
 import ij.ImagePlus;
 import net.imagej.ImageJ;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
     public static void main(final String... args) throws Exception {
@@ -22,7 +24,7 @@ public class Main {
         File inputFile=new File("src/main/resources/mri-stack.tif");
 
         ImagePlus imp= IJ.openImage(inputFile.getPath());
-        //imp.show();
+        imp.show();
 
         ImagePlus labels=IJ.openImage("src/main/resources/3dlabelled.tif");
         //labels.show();
@@ -32,12 +34,12 @@ public class Main {
 
         // invoke the plugin (IJ2 style)
         // automatize input for all @Parameters
-   /*     Map<String, Object> map = new HashMap<>();
+      /*  Map<String, Object> map = new HashMap<>();
           map.put("segImp", labels);
-          map.put("imp", imp);
+          map.put("grayImp", imp);
 
         ij.command().run(Create3DOverlayPlugin.class, true, map);*/
-        ij.command().run(AboutPlugin.class, true);
+        ij.command().run(Manual3DSegmentationPlugin.class, true);
     }
 
 
