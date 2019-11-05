@@ -29,7 +29,9 @@ The plugins are being developed at the [**Scientific Computing Facility of the M
 
 ## Installation
 * **SegTools** is distributed via an **Update site** in **Fiji**. To add it, open Fiji, then click the Menu `Help > Update ..., then XXXX TODO`. Then restart Fiji.
-* Some of the plugins depend on the [**MorpholibJ**](https://imagej.net/MorphoLibJ) library. To add this library to your Fiji: Click `Help > Update ... > ` select `IJPB-plugins > ` then select `Close > Apply Changes`. Then restart Fiji.
+* Some of the plugins depend on the [**MorpholibJ**](https://imagej.net/MorphoLibJ) library. 
+	* Note that MorpholibJ is distributed under the [GNU Lesser General Public License (LGPL)](https://github.com/ijpb/MorphoLibJ/blob/master/LICENSE.txt).
+	* To add this library to your Fiji: Click `Help > Update ... > ` select `IJPB-plugins > ` then select `Close > Apply Changes`. Then restart Fiji.
 * For general instructions on how to follow an update site, check [here](https://imagej.net/Following_an_update_site).
 
 
